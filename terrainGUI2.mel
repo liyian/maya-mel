@@ -1,0 +1,37 @@
+proc terrainGUI(){
+
+window -t "TerrainGenerator" -wh 350 350 ;
+    columnLayout;
+    text -w 175 -al "left" -l "Terrain Parameters";
+    separator -st "double" -w 200;
+    
+    text -w 175 -al "left" -l "parameter iteration(<6):";
+    intField  -value 5 -w 200 "field";
+    
+    text -w 175 -al "left" -l "parameter d:";
+    intField  -value 4 -w 200 "field_1"; 
+    
+    text -w 175 -al "left" -l "parameter s:";
+    intField  -value 1 -w 200 "field_2";
+    
+    int $c = `intField -q -value field`;
+    int $v =` intField -q -value field_1`;
+    int $b = `intField -q -value field_2`;
+    
+    button -label "create Terrain" - command "generateTerrain($c,$v,$b)";
+    button -label "create Regid" - command "regid()";
+    button -label "create color" - command "addcolor()";
+    
+    text -w 175 -al "left" -l "max ";
+    intField  -value 4 -w 200 "field_4"; 
+    
+    text -w 175 -al "left" -l "min";
+    intField  -value 2 -w 200 "field_3";
+    
+    int $a = `intField -q -value field_4`;
+    int $s = `intField -q -value field_3`;
+    
+    button -label "create plain/platos" - command "addp(4,1)";
+showWindow ;
+}
+terrainGUI();

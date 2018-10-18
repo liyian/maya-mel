@@ -1,0 +1,62 @@
+proc generateTerrain(int $iter,int $d ,int $s){
+    if ($iter>6){print ("iteration time exceeded");}
+    string $name[]=`polyPlane -n myTerrain -w 10 -h 10 -sx $iter -sy $iter`;    
+
+    int $total_v[]= `polyEvaluate -v`;
+
+    for( $i=0 ;$i<=$total_v[0];$i=$i+1){
+       
+        string $myvertexname=$name[0]+".vtx["+$i+"]";
+        select -r $myvertexname ; 
+        int $a=rand(-$d,$d);
+        move -r 0 $a  0 ;
+        polySmooth -c 5;
+        
+        $d=$d/ $s;
+    
+        }
+    
+}
+
+ proc regid(){
+     int $total_v[]= `polyEvaluate -v`;
+
+    for( $i=0 ;$i<=$total_v[0];$i=$i+1){
+       
+        string $myvertexname="myTerrain"+".vtx["+$i+"]";
+        select -r $myvertexname;
+        float $pos[] = `xform -q -ws -t $myvertexname`;
+        int $a= -(abs($pos[1]))+1;
+        move -r 0 $a  0 ;
+         }
+ }
+ proc addcolor(){
+     int $total_v[]= `polyEvaluate -v`;
+
+    for( $i=0 ;$i<=$total_v[0];$i=$i+1){
+       
+        string $myvertexname="myTerrain"+".vtx["+$i+"]";
+        select -r $myvertexname;
+        float $pos[] = `xform -q -ws -t $myvertexname`;
+        if(0<$pos[1]<0.5){polyColorPerVertex  -rgb 1 1 0 -a 1 -cdo;}
+        if($pos[1]>=0.5){polyColorPerVertex  -rgb 0 0 0 -a 1 -cdo;}
+        if($pos[1]<-0.5){polyColorPerVertex  -rgb 0 1 0 -a 1 -cdo;}
+       }
+ }
+        
+ proc addp(int $max, int $min){
+     int $total_v[]= `polyEvaluate -v`;
+
+    for( $i=0 ;$i<=$total_v[0];$i=$i+1){
+       
+        string $myvertexname="myTerrain"+".vtx["+$i+"]";
+        select -r $myvertexname;
+        float $pos[] = `xform -q -ws -t $myvertexname`;
+        if($pos[1]<=0){
+        int $a= `max $pos[1] $min`; move -r 0 $a 0;}
+        if($pos[1]>0){
+         int $a= `min $pos[1] $max` ; move -r 0 $a 0;}
+        
+        }
+     
+ }
